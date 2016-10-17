@@ -25,33 +25,29 @@
 		}
 		
 		function nextMove(pos) {
-			// pos.innerText = playerSymbols[currTurn];
-			console.log("moved: " + pos);
+			if (gameBoard[pos] == 2) {
 			gameBoard[pos] = currTurn;
 			switchTurn();
 			displayBoard();
+			}
+			else {
+			setMessage("That square is taken")
+			}
 		}
 
 		function displayBoard() {
 			for (pos = 0; pos < gameBoard.length; pos++) {
-				var myId = "s" + pos;
-				console.log(myId);
-				var ele = document.getElementById(myId);
+				var ele = document.getElementById("s" + pos);
 				ele.innerText = playerSymbols[ gameBoard[pos] ];
 			}
 		}
 		
 		function switchTurn() {
 			currTurn = (currTurn + 1) % (playerSymbols.length - 1);
-		// 	if (document.turn == "X") {
-		// 		document.turn = "O";
-		// 	} 
-		// 	else if (document.turn == "O") {
-		// 		document.turn = "";
-		// 	}
-		// 	else if (document.turn == "") {
-		// 		document.turn = "X";
-		// 	}
+		}
+
+		function setMessage(msg){
+			document.getElementById("message").innerText = msg;
 		}
 
 		</script>
@@ -62,6 +58,8 @@
 		<center>
 
 		<h1>Shiao's Simplified Tic-Tac-Toe</h1>
+
+		<div id="message"> </div>
 		
 			<table border="1">
 			<tr>

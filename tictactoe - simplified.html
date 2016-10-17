@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Shiao's Simplified Tic-Tac-Toe</title>
+		<style type="text/css">
+			.square {
+			width: 150px;
+			height: 150px;
+			text-align: center;
+			font-size: 80pt;
+			}
+		</style>
+
+		<script type="text/javascript">
+		
+		var currTurn = 0;
+		var playerSymbols = ["X", "O", ""];
+		var gameBoard;
+
+		function startGame() {
+			currTurn = 0;
+			gameBoard = [2, 2, 2, 2, 2, 2, 2, 2, 2];
+			displayBoard();
+		}
+		
+		function nextMove(pos) {
+			// pos.innerText = playerSymbols[currTurn];
+			console.log("moved: " + pos);
+			gameBoard[pos] = currTurn;
+			switchTurn();
+			displayBoard();
+		}
+
+		function displayBoard() {
+			for (pos = 0; pos < gameBoard.length; pos++) {
+				var myId = "s" + pos;
+				console.log(myId);
+				var ele = document.getElementById(myId);
+				ele.innerText = playerSymbols[ gameBoard[pos] ];
+			}
+		}
+		
+		function switchTurn() {
+			currTurn = (currTurn + 1) % (playerSymbols.length - 1);
+		// 	if (document.turn == "X") {
+		// 		document.turn = "O";
+		// 	} 
+		// 	else if (document.turn == "O") {
+		// 		document.turn = "";
+		// 	}
+		// 	else if (document.turn == "") {
+		// 		document.turn = "X";
+		// 	}
+		}
+
+		</script>
+		
+	</head>
+
+	<body onload="startGame();">
+		<center>
+
+		<h1>Shiao's Simplified Tic-Tac-Toe</h1>
+		
+			<table border="1">
+			<tr>
+				<td id="s0" class="square" onclick="nextMove(0)"></td>
+				<td id="s1" class="square" onclick="nextMove(1)"></td>
+				<td id="s2" class="square" onclick="nextMove(2)"></td>
+			</tr>
+			<tr>
+				<td id="s3" class="square" onclick="nextMove(3)"></td>
+				<td id="s4" class="square" onclick="nextMove(4)"></td>
+				<td id="s5" class="square" onclick="nextMove(5)"></td>
+			</tr>
+			<tr>
+				<td id="s6" class="square" onclick="nextMove(6)"></td>
+				<td id="s7" class="square" onclick="nextMove(7)"></td>
+				<td id="s8" class="square" onclick="nextMove(8)"></td>
+			</tr>
+			</table>
+
+		</center>
+
+	</body>
+
+</html>

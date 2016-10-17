@@ -16,34 +16,74 @@
 		
 		var currTurn = 0;
 		var playerSymbols = ["X", "O", ""];
-		var gameBoard;
+		var grid;
+		document.finished = null;
 
 		function startGame() {
+			document.finished = null;
+			setMessage(playerSymbols[currTurn] + " moves first")
 			currTurn = 0;
-			gameBoard = [2, 2, 2, 2, 2, 2, 2, 2, 2];
+			grid = [2, 2, 2, 2, 2, 2, 2, 2, 2];
 			displayBoard();
 		}
 		
 		function nextMove(pos) {
-			if (gameBoard[pos] == 2) {
-			gameBoard[pos] = currTurn;
-			switchTurn();
-			displayBoard();
+			if (document.finished != null) {
+				setMessage("The game is already finished")
+			}
+			else if (grid[pos] == 2) {
+				grid[pos] = currTurn;
+				setMessage("It's " + playerSymbols[currTurn] + "'s turn")
+				switchTurn();
+				displayBoard();
 			}
 			else {
-			setMessage("That square is taken")
+				setMessage("That square is taken")
+			}
+		}
+
+		function switchTurn(){ 
+			if (checkWin (playerSymbols[currTurn]) ) {
+				setMessage( playerSymbols[currTurn] + " wins the game!")
+			}
+			else if (checkTie()) {
+				setMessage("It's a tie!")
+			}
+			else {
+				currTurn = (currTurn + 1) % (playerSymbols.length - 1);
 			}
 		}
 
 		function displayBoard() {
-			for (pos = 0; pos < gameBoard.length; pos++) {
-				var ele = document.getElementById("s" + pos);
-				ele.innerText = playerSymbols[ gameBoard[pos] ];
+			for (pos = 0; pos < grid.length; pos++) {
+				var getBox = document.getElementById("s" + pos);
+				getBox.innerText = playerSymbols[ grid[pos] ];
 			}
 		}
-		
-		function switchTurn() {
-			currTurn = (currTurn + 1) % (playerSymbols.length - 1);
+
+		function checkWin() {
+			var result = false;
+			if (grid[0]==grid[1] && grid[1]==grid[2] && grid[2]!=2||
+			    grid[3]==grid[4] && grid[4]==grid[5] && grid[5]!=2||
+			    grid[6]==grid[7] && grid[7]==grid[8] && grid[8]!=2||
+			    grid[0]==grid[3] && grid[3]==grid[6] && grid[6]!=2||
+			    grid[1]==grid[4] && grid[4]==grid[7] && grid[7]!=2||
+			    grid[2]==grid[5] && grid[5]==grid[8] && grid[8]!=2||
+			    grid[0]==grid[4] && grid[4]==grid[8] && grid[8]!=2||
+			    grid[2]==grid[4] && grid[4]==grid[6] && grid[6]!=2){
+			   	result = true;
+				document.finished = 1;}
+			return result
+		}
+
+		function checkTie() {
+			var result = false;
+			if (grid[0] != 2 && grid[1] != 2 && grid[2] != 2 && 
+				grid[3] != 2 && grid[4] != 2 && grid[5] != 2 &&
+				grid[6] != 2 && grid[7] != 2 && grid[8] != 2){	
+				result = true;
+				document.finished = 1;}
+			return result
 		}
 
 		function setMessage(msg){
@@ -57,9 +97,9 @@
 	<body onload="startGame();">
 		<center>
 
-		<h1>Shiao's Simplified Tic-Tac-Toe</h1>
+		<h1>Shiao's WIP Tic-Tac-Toe</h1>
 
-		<div id="message"> </div>
+		<div id="message"></div>
 		
 			<table border="1">
 			<tr>
@@ -78,6 +118,8 @@
 				<td id="s8" class="square" onclick="nextMove(8)"></td>
 			</tr>
 			</table>
+
+			<button onclick="startGame(this);">Reset</button>
 
 		</center>
 
